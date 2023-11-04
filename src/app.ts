@@ -20,11 +20,9 @@ server.register(fastifyJwt, {
 server.decorate(
   'authenticate',
   async (request: FastifyRequest, reply: FastifyReply) => {
-    try {
-      request.jwtVerify();
-    } catch (e) {
-      return reply.code(403).send(e);
-    }
+    request.jwtVerify().catch((err) => {
+      return reply.code(401).send(err);
+    });
   }
 );
 
